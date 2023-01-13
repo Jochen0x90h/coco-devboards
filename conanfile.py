@@ -16,7 +16,7 @@ class Project(ConanFile):
     generators = "CMakeDeps"
     exports_sources = "conanfile.py", "CMakeLists.txt", "coco/*"
     no_copy_source = True
-    requires = "coco/0.1.0"
+    requires = "coco/0.3.0"
 
 
     # check if we are cross compiling

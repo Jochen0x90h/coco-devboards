@@ -7,7 +7,6 @@
 namespace coco {
 namespace board {
 
-
 InOut_GPIO::Config ioConfig[] {
 	{gpio::PB(12), gpio::Mode::OUTPUT, gpio::Pull::DISABLED, gpio::Speed::LOW, gpio::Drive::PUSH_PULL, false, false},
 	{gpio::PC(9), gpio::Mode::OUTPUT, gpio::Pull::DISABLED, gpio::Speed::LOW, gpio::Drive::PUSH_PULL, false, false}, // green LED
@@ -15,8 +14,7 @@ InOut_GPIO::Config ioConfig[] {
 	{gpio::PA(0), gpio::Mode::INPUT, gpio::Pull::DISABLED, gpio::Speed::LOW, gpio::Drive::PUSH_PULL, false, false} // user button
 };
 
-
-// test configuraton of InOut
+// test configuraton for InOut
 struct InOutTest {
 	InOut_GPIO io{ioConfig};
 };
