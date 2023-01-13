@@ -7,7 +7,7 @@
 namespace coco {
 namespace board {
 
-// test configuraton of SPI with one channel for transfer and one for command/data
+// test configuraton for SPI with one channel for transfer and one for command/data
 struct SpiTest {
 	SpiMaster_SPIM3 spi{
 		gpio::P0(19), // SCK

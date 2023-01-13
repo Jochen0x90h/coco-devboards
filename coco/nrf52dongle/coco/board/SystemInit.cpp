@@ -27,5 +27,14 @@ void SystemInit() {
 #else
 	#warning "FPU is not used"
 #endif
+
+	// disabled interrupts trigger an event and wake up the processor from WFE
+	SCB->SCR = SCB->SCR | SCB_SCR_SEVONPEND_Msk;
+
+	// initialize RTC0
+	NRF_RTC0->EVTENSET = N(RTC_EVTENSET_OVRFLW, Set);
+	NRF_RTC0->INTENSET = N(RTC_INTENSET_COMPARE0, Set);
+	NRF_RTC0->PRESCALER = 1; // 16384Hz
+	NRF_RTC0->TASKS_START = TRIGGER;
 }
 }

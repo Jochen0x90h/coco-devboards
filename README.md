@@ -3,7 +3,10 @@
 This project contains clock initialization and include header files that are specific to various development boards
 
 ## Import
-Add coco-devboards/<version> to your conanfile where version corresponds to the git tags
+Add coco-devboards/\<version> to your conanfile where version corresponds to the git tags
+
+## Features
+* Board specific implementations of SystemInit() that set up the clock and start a timer for loop::now(), loop::sleep() and other time dependent functions
 
 ## Supported Boards
 * Native

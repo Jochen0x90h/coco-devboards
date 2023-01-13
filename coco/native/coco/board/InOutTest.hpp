@@ -1,15 +1,15 @@
 #pragma once
 
-#include <coco/platform/InOutOut.hpp>
+#include <coco/platform/InOut_cout.hpp>
 
 
 namespace coco {
 namespace board {
 
 
-// test configuraton of InOut
+// test configuraton for InOut
 struct InOutTest {
-	InOutOut io{"io"};
+	InOut_cout io{"io"};
 };
 
 }

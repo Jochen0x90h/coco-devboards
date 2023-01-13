@@ -4,9 +4,12 @@ if(${PLATFORM} STREQUAL "native")
 	add_library(coco-board-native)
 	target_sources(coco-board-native
 		PUBLIC FILE_SET headers TYPE HEADERS FILES
+			native/coco/board/FlashTest.hpp
 			native/coco/board/InOutTest.hpp
-			native/coco/board/QuadratureDecoder.hpp
+			native/coco/board/QuadratureDecoderTest.hpp
 			native/coco/board/SpiTest.hpp
+			native/coco/board/StorageTest.hpp
+			native/coco/board/TriggerTest.hpp
 			native/coco/board/UsbDevice.hpp
 		PRIVATE
 			native/coco/board/debug.cpp
@@ -26,9 +29,12 @@ elseif(${PLATFORM} STREQUAL "nrf52840")
 	add_library(coco-board-nrf52dongle)
 	target_sources(coco-board-nrf52dongle
 		PUBLIC FILE_SET headers TYPE HEADERS FILES
+			nrf52dongle/coco/board/FlashTest.hpp
 			nrf52dongle/coco/board/InOutTest.hpp
-			nrf52dongle/coco/board/QuadratureDecoder.hpp
+			nrf52dongle/coco/board/QuadratureDecoderTest.hpp
 			nrf52dongle/coco/board/SpiTest.hpp
+			nrf52dongle/coco/board/StorageTest.hpp
+			nrf52dongle/coco/board/TriggerTest.hpp
 			nrf52dongle/coco/board/UsbDevice.hpp
 		PRIVATE
 			nrf52dongle/coco/board/debug.cpp
@@ -50,8 +56,12 @@ elseif(${PLATFORM} STREQUAL "stm32f051x8")
 	add_library(coco-board-stm32f051discovery)
 	target_sources(coco-board-stm32f051discovery
 		PUBLIC FILE_SET headers TYPE HEADERS FILES
+			stm32f051discovery/coco/board/config.hpp
+			stm32f051discovery/coco/board/FlashTest.hpp
 			stm32f051discovery/coco/board/InOutTest.hpp
 			stm32f051discovery/coco/board/SpiTest.hpp
+			stm32f051discovery/coco/board/StorageTest.hpp
+			stm32f051discovery/coco/board/TriggerTest.hpp
 		PRIVATE
 			stm32f051discovery/coco/board/debug.cpp
 			stm32f051discovery/coco/board/SystemInit.cpp

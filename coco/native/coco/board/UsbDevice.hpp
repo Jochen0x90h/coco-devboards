@@ -1,12 +1,12 @@
 #pragma once
 
-#include <coco/platform/UsbDeviceOut.hpp>
+#include <coco/platform/UsbDevice_cout.hpp>
 
 
 namespace coco {
 namespace board {
 
-using UsbDevice = UsbDeviceOut;
+using UsbDevice = UsbDevice_cout;
 
 }
 }
