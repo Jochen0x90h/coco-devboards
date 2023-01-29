@@ -16,7 +16,7 @@ class Project(ConanFile):
     generators = "CMakeDeps"
     exports_sources = "conanfile.py", "CMakeLists.txt", "coco/*"
     no_copy_source = True
-    requires = "coco/0.3.0"
+    requires = "coco/0.4.0"
 
 
     # check if we are cross compiling
@@ -38,6 +38,7 @@ class Project(ConanFile):
     def generate(self):
         # generate "conan_toolchain.cmake"
         toolchain = CMakeToolchain(self)
+        toolchain.variables["OS"] = self.settings.os
         toolchain.variables["PLATFORM"] = self.options.platform
 
         # cross compile to a platform if platform option is set
