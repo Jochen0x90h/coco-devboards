@@ -1,5 +1,5 @@
 if(${PLATFORM} STREQUAL "native")
-	# native "board" for running on Windows, MacOS, Linux
+	# native "board" running on Windows, MacOS, Linux
 	message("*** Board: native")
 	add_library(coco-board-native)
 	target_sources(coco-board-native
@@ -14,6 +14,26 @@ if(${PLATFORM} STREQUAL "native")
 	
 	# install the component library
 	install(TARGETS coco-board-native
+		FILE_SET headers DESTINATION include/coco/board
+		LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib
+	)
+elseif(${PLATFORM} STREQUAL "emu")
+	# emulator "board" running on Windows, MacOS, Linux with simple graphical user interface
+	message("*** Board: emu")
+	add_library(coco-board-emu)
+	target_sources(coco-board-emu
+		PUBLIC FILE_SET headers TYPE HEADERS FILES
+			emu/coco/board/config.hpp
+		PRIVATE
+			emu/coco/board/debug.cpp
+	)
+	target_link_libraries(coco-board-emu
+		coco::coco
+	)
+
+	# install the component library
+	install(TARGETS coco-board-emu
 		FILE_SET headers DESTINATION include/coco/board
 		LIBRARY DESTINATION lib
 		ARCHIVE DESTINATION lib
