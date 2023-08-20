@@ -1,22 +1,22 @@
 #include "config.hpp"
+#include <coco/debug.hpp>
 #include <coco/platform/platform.hpp>
 
 
-// called from system/startup_stm32f042x6.s to setup clock and flash before static constructors
+// called from startup code to setup clock and flash before static constructors and main()
 // pass -Wl,--undefined=SystemInit to gcc in addition to -Wl,--gc-sections to prevent the function from being garbage collected
 extern "C" {
 void SystemInit() {
-	// leave clock in default configuration (8MHz)
+	// default clock is 8MHz
 
-	// disabled interrupts trigger an event and wake up the processor from WFE
-	// see chapter 5.3.3 in reference manual
-	SCB->SCR = SCB->SCR | SCB_SCR_SEVONPEND_Msk;
+	// set system clock to 40MHz and peripheral clock to 20MHz
 
-	// initialize TIM2
-	RCC->APB1ENR = RCC->APB1ENR | RCC_APB1ENR_TIM2EN;
-	TIM2->PSC = (CLOCK + 1000 / 2) / 1000 - 1; // prescaler for 1ms timer resolution
-	TIM2->EGR = TIM_EGR_UG; // update generation so that prescaler takes effect
-	TIM2->DIER = TIM_DIER_CC1IE; // interrupt enable for CC1
-	TIM2->CR1 = TIM_CR1_CEN; // enable, count up
+	// set APB1 prescaler, set PLL multiplier, use PLL
+	RCC->CFGR = RCC_CFGR_PPRE_DIV2 | RCC_CFGR_PLLMUL10 | RCC_CFGR_SW_PLL;
+
+	// enable PLL
+	RCC->CR = RCC->CR | RCC_CR_PLLON;
+
+	coco::debug::init();
 }
 }

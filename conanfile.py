@@ -14,8 +14,8 @@ class Project(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain"
     exports_sources = "conanfile.py", "CMakeLists.txt", "coco/*"
     no_copy_source = True
-    requires = "coco/0.5.0"
-    tool_requires = "coco-toolchain/0.1.0"
+    requires = "coco/0.6.0"
+    tool_requires = "coco-toolchain/0.2.0"
 
 
     # check if we are cross compiling
@@ -67,5 +67,13 @@ class Project(ConanFile):
             self.cpp_info.components["stm32f051discovery"].libs = ["coco-board-stm32f051discovery"]
             self.cpp_info.components["stm32f051discovery"].includedirs = ["include/coco/board/stm32f051discovery"]
             self.cpp_info.components["stm32f051discovery"].requires = ["coco::coco"]
+        elif platform == "stm32g431xx":
+            self.cpp_info.components["stm32g431nucleo"].libs = ["coco-board-stm32g431nucleo"]
+            self.cpp_info.components["stm32g431nucleo"].includedirs = ["include/coco/board/stm32g431nucleo"]
+            self.cpp_info.components["stm32g431nucleo"].requires = ["coco::coco"]
+        elif platform == "stm32g474xx":
+            self.cpp_info.components["stm32g474nucleo"].libs = ["coco-board-stm32g474nucleo"]
+            self.cpp_info.components["stm32g474nucleo"].includedirs = ["include/coco/board/stm32g474nucleo"]
+            self.cpp_info.components["stm32g474nucleo"].requires = ["coco::coco"]
         else:
             self.cpp_info.includedirs = []
