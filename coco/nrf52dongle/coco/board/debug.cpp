@@ -4,38 +4,39 @@
 namespace coco {
 namespace debug {
 
-void init() {
+constexpr int redPin = gpio::P0(23);
+constexpr int greenPin = gpio::P0(22);
+constexpr int bluePin = gpio::P0(24);
+
+void __attribute__((weak)) init() {
 	// Initialize debug LEDs
-	gpio::setOutput(gpio::P0(23), true);
-	gpio::setOutput(gpio::P0(22), true);
-	gpio::setOutput(gpio::P0(24), true);
-	gpio::configureOutput(gpio::P0(23), gpio::Pull::DISABLED, gpio::Drive::S0D1); // red LED
-	gpio::configureOutput(gpio::P0(22), gpio::Pull::DISABLED, gpio::Drive::S0D1); // green LED
-	gpio::configureOutput(gpio::P0(24), gpio::Pull::DISABLED, gpio::Drive::S0D1); // blue LED
+	gpio::configureOutput(redPin, true, gpio::Drive::S0S1);
+	gpio::configureOutput(greenPin, true, gpio::Drive::S0S1);
+	gpio::configureOutput(bluePin, true, gpio::Drive::S0S1);
 }
 
-void setRed(bool value) {
-	gpio::setOutput(gpio::P0(23), !value);
+void __attribute__((weak)) setRed(bool value) {
+	gpio::setOutput(redPin, !value);
 }
 
-void toggleRed() {
-	gpio::toggleOutput(gpio::P0(23));
+void __attribute__((weak)) toggleRed() {
+	gpio::toggleOutput(redPin);
 }
 
-void setGreen(bool value) {
-	gpio::setOutput(gpio::P0(22), !value);
+void __attribute__((weak)) setGreen(bool value) {
+	gpio::setOutput(greenPin, !value);
 }
 
-void toggleGreen() {
-	gpio::toggleOutput(gpio::P0(22));
+void __attribute__((weak)) toggleGreen() {
+	gpio::toggleOutput(greenPin);
 }
 
-void setBlue(bool value) {
-	gpio::setOutput(gpio::P0(24), !value);
+void __attribute__((weak)) setBlue(bool value) {
+	gpio::setOutput(bluePin, !value);
 }
 
-void toggleBlue() {
-	gpio::toggleOutput(gpio::P0(24));
+void __attribute__((weak)) toggleBlue() {
+	gpio::toggleOutput(bluePin);
 }
 
 } // namespace debug

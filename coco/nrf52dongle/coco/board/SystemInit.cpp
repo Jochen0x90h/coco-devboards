@@ -1,7 +1,8 @@
+#include <coco/debug.hpp>
 #include <coco/platform/platform.hpp>
 
 
-// called by system/gcc_startup_nrf52840.S
+// called from startup code to setup clock and flash before static constructors and main()
 // pass -Wl,--undefined=SystemInit to gcc in addition to -Wl,--gc-sections to prevent the function from being garbage collected
 extern "C" {
 void SystemInit() {
@@ -27,14 +28,13 @@ void SystemInit() {
 #else
 	#warning "FPU is not used"
 #endif
-
-	// disabled interrupts trigger an event and wake up the processor from WFE
-	SCB->SCR = SCB->SCR | SCB_SCR_SEVONPEND_Msk;
-
-	// initialize RTC0
+/*
+	// initialize RTC0 to 16384Hz
 	NRF_RTC0->EVTENSET = N(RTC_EVTENSET_OVRFLW, Set);
 	NRF_RTC0->INTENSET = N(RTC_INTENSET_COMPARE0, Set);
 	NRF_RTC0->PRESCALER = 1; // 16384Hz
 	NRF_RTC0->TASKS_START = TRIGGER;
+*/
+	coco::debug::init();
 }
 }

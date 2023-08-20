@@ -6,12 +6,12 @@ if(${PLATFORM} STREQUAL "native")
 		PUBLIC FILE_SET headers TYPE HEADERS FILES
 			native/coco/board/config.hpp
 		PRIVATE
-			native/coco/board/debug.cpp
+			native/coco/board/dummy.cpp
 	)
 	target_link_libraries(coco-board-native
 		coco::coco
 	)
-	
+
 	# install the component library
 	install(TARGETS coco-board-native
 		FILE_SET headers DESTINATION include/coco/board
@@ -26,7 +26,7 @@ elseif(${PLATFORM} STREQUAL "emu")
 		PUBLIC FILE_SET headers TYPE HEADERS FILES
 			emu/coco/board/config.hpp
 		PRIVATE
-			emu/coco/board/debug.cpp
+			emu/coco/board/dummy.cpp
 	)
 	target_link_libraries(coco-board-emu
 		coco::coco
@@ -80,4 +80,46 @@ elseif(${PLATFORM} STREQUAL "stm32f051x8")
 		ARCHIVE DESTINATION lib
 	)
 	install(FILES stm32f051discovery/link.ld DESTINATION include/coco/board/stm32f051discovery)
+elseif(${PLATFORM} STREQUAL "stm32g431xx")
+	message("*** Board: stm32g431nucleo")
+	add_library(coco-board-stm32g431nucleo)
+	target_sources(coco-board-stm32g431nucleo
+		PUBLIC FILE_SET headers TYPE HEADERS FILES
+			stm32g431nucleo/coco/board/config.hpp
+		PRIVATE
+			stm32g431nucleo/coco/board/debug.cpp
+			stm32g431nucleo/coco/board/SystemInit.cpp
+	)
+	target_link_libraries(coco-board-stm32g431nucleo
+		coco::coco
+	)
+
+	# install the component library
+	install(TARGETS coco-board-stm32g431nucleo
+		FILE_SET headers DESTINATION include/coco/board
+		LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib
+	)
+	install(FILES stm32g431nucleo/link.ld DESTINATION include/coco/board/stm32g431nucleo)
+elseif(${PLATFORM} STREQUAL "stm32g474xx")
+	message("*** Board: stm32g474nucleo")
+	add_library(coco-board-stm32g474nucleo)
+	target_sources(coco-board-stm32g474nucleo
+		PUBLIC FILE_SET headers TYPE HEADERS FILES
+			stm32g474nucleo/coco/board/config.hpp
+		PRIVATE
+			stm32g431nucleo/coco/board/debug.cpp
+			stm32g431nucleo/coco/board/SystemInit.cpp
+	)
+	target_link_libraries(coco-board-stm32g474nucleo
+		coco::coco
+	)
+
+	# install the component library
+	install(TARGETS coco-board-stm32g474nucleo
+		FILE_SET headers DESTINATION include/coco/board
+		LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib
+	)
+	install(FILES stm32g474nucleo/link.ld DESTINATION include/coco/board/stm32g474nucleo)
 endif()
