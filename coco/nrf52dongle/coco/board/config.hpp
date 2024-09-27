@@ -6,7 +6,7 @@
 using namespace coco::literals;
 
 // make sure the board specific SystemInit() configures the clock to the given frequency
-constexpr auto CLOCK = 64MHz;
+constexpr auto SYS_CLOCK = 64MHz;
 
 // flash start address and size
 constexpr int FLASH_ADDRESS = 0;

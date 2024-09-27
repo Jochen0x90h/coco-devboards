@@ -9,9 +9,9 @@ namespace debug {
 
 constexpr auto greenPin = gpio::Config::PA5;
 
-const auto txPin = gpio::Config::PA2 | gpio::Config::AF12;
-#define USART_INFO usart::LPUART1_INFO
-constexpr auto uartClock = APB1_CLOCK;
+const auto txPin = gpio::Config::PA2 | gpio::Config::AF1;
+#define USART_INFO usart::USART2_INFO
+constexpr auto uartClock = APB_CLOCK;
 constexpr auto uartConfig = usart::Config::DEFAULT;
 constexpr int baudRate = 115200;
 
@@ -30,7 +30,7 @@ void __attribute__((weak)) init() {
         gpio::configureAlternate(txPin);
 
         // set baud rate
-        uart->BRR = (uint64_t(256) * int(uartClock) + (baudRate >> 1)) / baudRate;
+        uart->BRR = (int(uartClock) + (baudRate >> 1)) / baudRate;
 
         // enable UART and transmitter
         uart->CR1 = usart::CR1(uartConfig) // config
@@ -48,7 +48,7 @@ void __attribute__((weak)) set(uint32_t bits, uint32_t function) {
 }
 
 void __attribute__((weak)) sleep(Microseconds<> time) {
-    int64_t count = int64_t(int(SYS_CLOCK) / 875000) * time.value >> 3;
+    int64_t count = int64_t(33) * time.value >> 2;
     for (int64_t i = 0; i < count; ++i) {
         __NOP();
     }
