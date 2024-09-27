@@ -20,6 +20,12 @@ Add coco-devboards/\<version> to your conanfile where version corresponds to the
 * STM32F0
   * stm32f051x8
     * [STM32F051 Discovery Kit](https://www.st.com/en/evaluation-tools/stm32f0discovery.html)
+* STM32F4
+  * stm32f401xe
+    * [NUCLEO-F401RE](https://www.st.com/en/evaluation-tools/nucleo-f401re.html)
+* STM32C0
+  * stm32c031xx
+    * [NUCLEO-C031C6](https://www.st.com/en/evaluation-tools/nucleo-c031c6.html)
 * STM32G4
   * stm32g431xx
     * [NUCLEO-G431RB](https://www.st.com/en/evaluation-tools/nucleo-g431rb.html)

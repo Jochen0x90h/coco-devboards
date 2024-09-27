@@ -6,8 +6,8 @@
 **
 **  Author		: STM32CubeMX
 **
-**  Abstract    : Linker script for STM32G431C6Tx series
-**                32Kbytes FLASH and 32Kbytes RAM
+**  Abstract    : Linker script for STM32C011F4Ux series
+**                16Kbytes FLASH and 6Kbytes RAM
 **
 **                Set heap size, stack size and stack location according
 **                to application requirements.
@@ -61,8 +61,8 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 32K
-FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 256K /* 512K total, upper 256K for flash and storage tests */
+  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 12K
+  FLASH (rx)     : ORIGIN = 0x8000000, LENGTH = 16K /* 32K total, upper 16K for flash and storage tests */
 }
 
 /* Define output sections */

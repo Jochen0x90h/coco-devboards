@@ -6,8 +6,8 @@
 **
 **  Author		: STM32CubeMX
 **
-**  Abstract    : Linker script for STM32G431C6Tx series
-**                32Kbytes FLASH and 32Kbytes RAM
+**  Abstract    : Linker script for STM32F334C8Tx series
+**                64Kbytes FLASH and 16Kbytes RAM
 **
 **                Set heap size, stack size and stack location according
 **                to application requirements.
@@ -61,8 +61,9 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 32K
-FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 64K /* 128K total, upper 64K for flash and storage tests */
+  RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 12K
+  CCMRAM (xrw)    : ORIGIN = 0x10000000, LENGTH = 4K
+  FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 32K /* 64K total, upper 32K for flash and storage tests */
 }
 
 /* Define output sections */
@@ -134,7 +135,7 @@ SECTIONS
   _sidata = LOADADDR(.data);
 
   /* Initialized data sections goes into RAM, load LMA copy after code */
-  .data : 
+  .data :
   {
     . = ALIGN(4);
     _sdata = .;        /* create a global symbol at data start */
@@ -145,7 +146,26 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >RAM AT> FLASH
 
-  
+  _siccmram = LOADADDR(.ccmram);
+
+  /* CCM-RAM section
+  *
+  * IMPORTANT NOTE!
+  * If initialized variables will be placed in this section,
+  * the startup code needs to be modified to copy the init-values.
+  */
+  .ccmram :
+  {
+    . = ALIGN(4);
+    _sccmram = .;       /* create a global symbol at ccmram start */
+    *(.ccmram)
+    *(.ccmram*)
+
+    . = ALIGN(4);
+    _eccmram = .;       /* create a global symbol at ccmram end */
+  } >CCMRAM AT> FLASH
+
+
   /* Uninitialized data section */
   . = ALIGN(4);
   .bss :
@@ -173,7 +193,7 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
-  
+
 
   /* Remove information from the standard libraries */
   /DISCARD/ :

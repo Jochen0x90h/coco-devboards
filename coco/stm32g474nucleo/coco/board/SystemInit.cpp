@@ -8,7 +8,7 @@
 extern "C" {
 void __attribute__((weak)) SystemInit() {
     /*
-        Use HSI, set system clock to 160MHz and peripheral clocks to 20MHz
+        Use HSE and set system clock to 168MHz and peripheral clocks to 21MHz
         HSI is 16MHz
         HSE is 24MHz
 
@@ -30,20 +30,21 @@ void __attribute__((weak)) SystemInit() {
         | FLASH_ACR_DCEN // data cache enable
         | FLASH_ACR_DBG_SWEN; // debug enable
 
-    // configure PLL: 16MHz / 1 * 20 = 320MHz / 2 = 160MHz
-    RCC->PLLCFGR = RCC_PLLCFGR_PLLSRC_HSI // source is internal oscillator HSI16
-        | ((1 - 1) << RCC_PLLCFGR_PLLM_Pos) // PLL M divisor
-        | (20 << RCC_PLLCFGR_PLLN_Pos) // PLL N multiplier
+    // configure PLL: 24MHz / 2 * 28 = 336MHz / 2 = 168MHz
+    RCC->PLLCFGR = RCC_PLLCFGR_PLLSRC_HSE // source is external oscillator
+        | ((2 - 1) << RCC_PLLCFGR_PLLM_Pos) // PLL M divisor
+        | (28 << RCC_PLLCFGR_PLLN_Pos) // PLL N multiplier
         | RCC_PLLCFGR_PLLREN // enable PLL R output
         | RCC_PLLCFGR_PLLPEN // enable PLL P output (for ADC)
-        | (7 << RCC_PLLCFGR_PLLPDIV_Pos); // ADC clock: 320MHz / 7 = 45.7MHz
+        | (7 << RCC_PLLCFGR_PLLPDIV_Pos); // ADC clock: 336MHz / 7 = 48MHz
 
-    // enable internal oscillator and PLL
+    // enable external oscillator and PLL
     RCC->CR = 0x63 // bits 0-7 must be kept at reset value
-        | RCC_CR_HSION // enable internal oscillator
+        | RCC_CR_HSEON // enable external oscillator crystal
+        //| RCC_CR_HSEBYP // can use PF1 as GPIO when using a stand-alone oscillator instead of a crystal
         | RCC_CR_PLLON; // enable PLL
 
-    // set boost mode
+    // set main regulator range 1 boost mode
     PWR->CR5 = 0;
 
     // wait until PLL is ready
