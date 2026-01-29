@@ -1,40 +1,53 @@
 #include <coco/convert.hpp>
 #include <coco/debug.hpp>
+#include <coco/board/config.hpp>
 #include <coco/platform/gpio.hpp>
+#include <coco/platform/uart.hpp>
 
 
 namespace coco {
 namespace debug {
 
-constexpr auto redPin = gpio::PB6;
-constexpr auto greenPin = gpio::PB9;
-constexpr auto bluePin = gpio::PB7;
-constexpr auto orangePin = gpio::PB8;
+constexpr auto greenPin = gpio::PA5;
+
+const auto txPin = gpio::PA4 | gpio::AF13;
+#define UART_INFO uart::USART3_INFO
+constexpr auto uartClock = USART3_CLOCK;
+constexpr auto uartConfig = uart::Config::ENABLE_FIFO;
+constexpr auto uartFormat = uart::Format::DEFAULT;
+constexpr auto baudRate = 115200Hz;
 
 void __attribute__((weak)) init() {
-    // Initialize debug LEDs
-    gpio::enableOutput(redPin, false);
+    // initialize debug LEDs
     gpio::enableOutput(greenPin, false);
-    gpio::enableOutput(bluePin, false);
-    gpio::enableOutput(orangePin, false);
+
+    // initialize UART for debug output to virtual COM port
+    UART_INFO.enableClock()
+        .enable(UART_INFO.enableRxTxPins(gpio::NONE, txPin, uartConfig), uartFormat, uartClock, baudRate)
+        .startTx();
 }
 
 void __attribute__((weak)) set(uint32_t bits, uint32_t function) {
-    gpio::setOutput(redPin, (bits & 1) != 0, (function & 1) != 0);
     gpio::setOutput(greenPin, (bits & 2) != 0, (function & 2) != 0);
-    gpio::setOutput(bluePin, (bits & 4) != 0, (function & 4) != 0);
-    gpio::setOutput(orangePin, (bits & 8) != 0, (function & 8) != 0);
 }
 
 void __attribute__((weak)) sleep(Microseconds<> time) {
-    int64_t count = int64_t(5) * time.value;
+    int64_t count = int64_t(int(SYS_CLOCK) / 850000) * time.value >> 3;
     for (int64_t i = 0; i < count; ++i) {
         __NOP();
     }
 }
 
 void __attribute__((weak)) write(const char *message, int length) {
-    // todo
+    auto uart = UART_INFO.instance();
+
+    for (int i = 0; i < length; ++i) {
+        // wait until fifo has space
+        uart.waitTx();
+
+        // send a character
+        uart.tx(message[i]);
+    }
 }
 
 } // namespace debug

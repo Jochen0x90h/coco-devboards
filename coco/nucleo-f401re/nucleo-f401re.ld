@@ -6,8 +6,8 @@
 **
 **  Author		: STM32CubeMX
 **
-**  Abstract    : Linker script for STM32F334C8Tx series
-**                64Kbytes FLASH and 16Kbytes RAM
+**  Abstract    : Linker script for STM32F401RETx series
+**                512Kbytes FLASH and 96Kbytes RAM
 **
 **                Set heap size, stack size and stack location according
 **                to application requirements.
@@ -61,9 +61,8 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-  FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 64K
-  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 12K
-  CCMRAM (xrw)   : ORIGIN = 0x10000000, LENGTH = 4K
+  FLASH (rx)     : ORIGIN = 0x08000000, LENGTH = 512K
+  RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 96K
 }
 
 /* Define output sections */
@@ -76,25 +75,6 @@ SECTIONS
     KEEP(*(.isr_vector)) /* Startup code */
     . = ALIGN(4);
   } >FLASH
-
-
-  /* Get address of .ccmram in flash */
-  _siccmram = LOADADDR(.ccmram);
-
-  /* CCMRAM section for fast execution
-   * Use __attribute__((section(".ccmram"))) to place functions into CCMRAM
-   * Note: Needs modified startup code!
-   */
-  .ccmram :
-  {
-    . = ALIGN(4);
-    _sccmram = .; /* define a global symbols at ccmram start */
-    *(.ccmram)
-    *(.ccmram*)
-    . = ALIGN(4);
-    _eccmram = .; /* define a global symbols at ccmram end */
-  } >CCMRAM AT> FLASH
-
 
   /* The program code and other data goes into FLASH */
   .text :
@@ -150,7 +130,6 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
 
-
   /* used by the startup to initialize data */
   _sidata = LOADADDR(.data);
 
@@ -183,7 +162,6 @@ SECTIONS
     __bss_end__ = _ebss;
   } >RAM
 
-
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
   {
@@ -194,6 +172,7 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM
+
 
 
   /* Remove information from the standard libraries */

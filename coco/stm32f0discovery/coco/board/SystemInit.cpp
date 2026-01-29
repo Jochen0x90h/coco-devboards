@@ -36,10 +36,7 @@ void SystemInit() {
     // enable clocks of GPIO and SYSCFG
     RCC->AHBENR = RCC->AHBENR
         | RCC_AHBENR_GPIOAEN
-        | RCC_AHBENR_GPIOBEN
-        | RCC_AHBENR_GPIOCEN
-        | RCC_AHBENR_GPIODEN
-        | RCC_AHBENR_GPIOFEN;
+        | RCC_AHBENR_GPIOBEN;
     RCC->APB2ENR = RCC->APB2ENR | RCC_APB2ENR_SYSCFGCOMPEN;
 
     coco::debug::init();
