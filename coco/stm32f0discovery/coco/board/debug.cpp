@@ -1,3 +1,4 @@
+#include <coco/convert.hpp>
 #include <coco/debug.hpp>
 #include <coco/platform/gpio.hpp>
 
@@ -5,13 +6,13 @@
 namespace coco {
 namespace debug {
 
-constexpr auto greenPin = gpio::Config::PC9;
-constexpr auto bluePin = gpio::Config::PC8;
+constexpr auto greenPin = gpio::PC9;
+constexpr auto bluePin = gpio::PC8;
 
 void __attribute__((weak)) init() {
     // Initialize debug LEDs
-    gpio::configureOutput(greenPin, false);
-    gpio::configureOutput(bluePin, false);
+    gpio::enableOutput(greenPin, false);
+    gpio::enableOutput(bluePin, false);
 }
 
 void __attribute__((weak)) set(uint32_t bits, uint32_t function) {
@@ -27,7 +28,16 @@ void __attribute__((weak)) sleep(Microseconds<> time) {
 }
 
 void __attribute__((weak)) write(const char *message, int length) {
+    // todo
 }
 
 } // namespace debug
 } // namespace coco
+
+// Override the __assert_func which gets called when NDEBUG is not defined
+extern "C" void __assert_func(const char *file, int line, const char *func, const char *expr) {
+    using namespace coco;
+    debug::set(debug::RED);
+    debug::out << "Assertion failed: " << expr << ", function " << func << ", file " << file << ", line " << dec(line) << '\n';
+    while (true);
+}
