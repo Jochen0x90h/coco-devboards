@@ -22,13 +22,14 @@ function(board_test TEST BOARD_LIB)
             PRIVATE
                 ../coco/${BOARD}
         )
-        target_link_options(${NAME}
-            PUBLIC
-                LINKER:-T${BOARD}.ld
-        )
 
-        # generate hex file for flashing the target
         if(${CMAKE_CROSSCOMPILING})
+            target_link_options(${NAME}
+                PUBLIC
+                    LINKER:-T${BOARD}.ld
+            )
+
+            # generate hex file for flashing the target
             #message("*** Generate Hex for ${NAME} using ${CMAKE_OBJCOPY}")
             add_custom_command(TARGET ${NAME}
                 POST_BUILD

@@ -299,7 +299,7 @@ elseif(${PLATFORM} STREQUAL "stm32u385xx")
     install(FILES nucleo-u385rg-q/nucleo-u385rg-q.ld DESTINATION lib)
 elseif(NOT ${CMAKE_CROSSCOMPILING})
     # default dummy board for native platforms (Windows, MacOS, Linux)
-    message("*** Board: ${PLATFORM}")
+    message("*** Board (Dummy): ${PLATFORM}")
     add_library(${PLATFORM})
     target_sources(${PLATFORM}
         PUBLIC FILE_SET headers TYPE HEADERS FILES

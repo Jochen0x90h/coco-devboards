@@ -1,6 +1,10 @@
 #include <coco/debug.hpp>
 
 
+/*
+    Tests debug::sleep() which is blocking
+*/
+
 using namespace coco;
 
 
