@@ -27,7 +27,7 @@ class Project(ConanFile):
         self.requires("coco/linux", options={"platform": self.options.platform})
 
     def build_requirements(self):
-        self.tool_requires("coco-toolchain/0.4.0", options={"platform": self.options.platform})
+        self.tool_requires("coco-toolchain/linux", options={"platform": self.options.platform})
 
     keep_imports = True
     def imports(self):
