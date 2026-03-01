@@ -23,8 +23,8 @@ void SystemInit() {
         | (1 << FLASH_ACR_LATENCY_Pos); // 1 wait state
 
     // set PLL multiplier, use PLL, set AHB and APB prescaler
-    RCC->CFGR = RCC_CFGR_PLLMUL10 // PLL factor 10, 8MHz / 2 * 10 = 40MHz
-        | RCC_CFGR_SW_PLL // use PLL
+    RCC->CFGR = RCC_CFGR_SW_PLL // use PLL
+        | RCC_CFGR_PLLMUL10 // PLLCLK: 8MHz / 2 * 10 = 40MHz (set SYS_CLOCK in config.hpp accordingly)
         | RCC_CFGR_HPRE_DIV1 // AHB prescaler
         | RCC_CFGR_PPRE_DIV2; // APB prescaler
 

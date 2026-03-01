@@ -43,12 +43,12 @@ void __attribute__((weak)) SystemInit() {
         | RCC_PLL1CFGR_PLL1PEN // enable PLL1P output
         | RCC_PLL1CFGR_PLL1QEN; // enable PLL1Q output
 
-    // configure PLL1: 4MHz / 1 * 124 = 496MHz / 2 = 248MHz
-    // configure PLL1: 24MHz / 2 * 40 = 480MHz / 2 = 240MHz
+    // configure PLL1: 4MHz / 1 * 124 = 496MHz
+    // configure PLL1: 24MHz / 2 * 40 = 480MHz
     //RCC->PLL1DIVR = ((124 - 1) << RCC_PLL1DIVR_PLL1N_Pos) // *N
     RCC->PLL1DIVR = ((40 - 1) << RCC_PLL1DIVR_PLL1N_Pos) // *N
-        //| ((2 - 1) << RCC_PLL1DIVR_PLL1P_Pos) // PLLP: 496MHz / 2 = 248MHz
-        | ((2 - 1) << RCC_PLL1DIVR_PLL1P_Pos) // PLLP: 480MHz / 2 = 240MHz
+        //| ((2 - 1) << RCC_PLL1DIVR_PLL1P_Pos) // PLLP: 496MHz / 2 = 248MHz (set SYS_CLOCK in config.hpp accordingly)
+        | ((2 - 1) << RCC_PLL1DIVR_PLL1P_Pos) // PLLP: 480MHz / 2 = 240MHz (set SYS_CLOCK in config.hpp accordingly)
         //| ((16 - 1) << RCC_PLL1DIVR_PLL1Q_Pos) // PLLQ: 496MHz / 16 = 31MHz (default source for SPI1, SPI2, SPI3, FDCAN1, FDCAN2)
         | ((10 - 1) << RCC_PLL1DIVR_PLL1Q_Pos); // PLLQ: 480MHz / 10 = 48MHz (default source for SPI1, SPI2, SPI3, FDCAN1, FDCAN2)
         //| ((2 - 1) << RCC_PLL1DIVR_PLL1R_Pos); // PLLR

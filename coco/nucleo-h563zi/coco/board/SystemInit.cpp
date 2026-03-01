@@ -41,7 +41,7 @@ void __attribute__((weak)) SystemInit() {
 
     // configure PLL1: 4MHz / 1 * 124 = 496MHz
     RCC->PLL1DIVR = ((124 - 1) << RCC_PLL1DIVR_PLL1N_Pos) // *N
-        | ((2 - 1) << RCC_PLL1DIVR_PLL1P_Pos) // PLLP: 496MHz / 2 = 248MHz
+        | ((2 - 1) << RCC_PLL1DIVR_PLL1P_Pos) // PLLP: 496MHz / 2 = 248MHz (set SYS_CLOCK in config.hpp accordingly)
         | ((2 - 1) << RCC_PLL1DIVR_PLL1Q_Pos); // PLLQ: 496MHz / 16 = 31MHz (default source for SPI1, SPI2, SPI3, FDCAN1, FDCAN2)
         //| ((2 - 1) << RCC_PLL1DIVR_PLL1R_Pos); // PLLR
 

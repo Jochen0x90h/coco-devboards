@@ -31,11 +31,11 @@ void __attribute__((weak)) SystemInit() {
         | FLASH_ACR_PRFTEN // prefetch enable
         | FLASH_ACR_DBG_SWEN; // debug enable
 
-    // configure PLL: 24MHz / 2 * 28 = 336MHz / 2 = 168MHz (set SYS_CLOCK in config.hpp accordingly)
+    // configure PLL: 24MHz / 2 * 28 = 336MHz
     RCC->PLLCFGR = RCC_PLLCFGR_PLLSRC_HSE // source is external oscillator
-        | ((2 - 1) << RCC_PLLCFGR_PLLM_Pos) // /M divisor
-        | (28 << RCC_PLLCFGR_PLLN_Pos) // *N multiplier
-        | RCC_PLLCFGR_PLLREN // enable PLLR output
+        | ((2 - 1) << RCC_PLLCFGR_PLLM_Pos) // /M
+        | (28 << RCC_PLLCFGR_PLLN_Pos) // *N
+        | RCC_PLLCFGR_PLLREN // enable PLLR output, PLLR: 336MHz / 2 = 168MHz (set SYS_CLOCK in config.hpp accordingly)
         | RCC_PLLCFGR_PLLPEN // enable PLLP output (for ADC)
         | (7 << RCC_PLLCFGR_PLLPDIV_Pos); // PLLP: 336MHz / 7 = 48MHz
 
