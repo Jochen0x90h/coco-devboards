@@ -9,6 +9,8 @@ extern "C" {
 void __attribute__((weak)) SystemInit() {
     /*
         Use MSIS as clock source, set system clock to 96MHz and peripheral clocks to 24MHz
+        MSIK is 96MHz or 24MHz
+        MSIS is 96MHz or 24MHz
         HSI is 16MHz
         HSE is not connected
 
@@ -33,16 +35,22 @@ void __attribute__((weak)) SystemInit() {
     PWR->VOSR = PWR_VOSR_BOOSTEN | PWR_VOSR_R1EN;
 
     // set AHB, APB1, APB2 and APB3 prescaler
-    RCC->CFGR2 = RCC_CFGR2_HPRE1_DIV1
-        | RCC_CFGR2_PPRE1_DIV4
-        | RCC_CFGR2_PPRE2_DIV4;
-    RCC->CFGR3 = RCC_CFGR3_PPRE3_DIV4;
+    RCC->CFGR2 = RCC_CFGR2_HPRE1_DIV1 // AHB_CLOCK = SYS_CLOCK
+        | RCC_CFGR2_PPRE1_DIV4 // APB1_CLOCK = AHB_CLOCK / 4
+        | RCC_CFGR2_PPRE2_DIV4; // APB2_CLOCK = AHB_CLOCK / 4
+    RCC->CFGR3 = RCC_CFGR3_PPRE3_DIV4; // APB3_CLOCK = AHB_CLOCK / 4
 
     // wait until booster and range 1 are ready
     while ((PWR->VOSR & (PWR_VOSR_R1RDY | PWR_VOSR_BOOSTRDY)) != (PWR_VOSR_R1RDY | PWR_VOSR_BOOSTRDY)) {}
 
-    // configure MSIS and MSIK, select ICSCR1 register
-    RCC->ICSCR1 = RCC_ICSCR1_MSIS_96MHZ | RCC_ICSCR1_MSIK_96MHZ | RCC_ICSCR1_MSIRGSEL;
+    // configure MSIS and MSIK
+    RCC->ICSCR1 = RCC_ICSCR1_MSIS_96MHZ // MSIS = 96MHz
+        | RCC_ICSCR1_MSIK_96MHZ // MSIK = 96MHz
+        | RCC_ICSCR1_MSIRGSEL; // select ICSCR1 register for MSIS/MSIK range
+
+    // ADC/DAC clock configuration (HCLK works only with no divisor, Errata ES0626 2.2.14 „Incorrect DAC output voltage due to DAC kernel clock setting“)
+    RCC->CCIPR2 = (2 << RCC_CCIPR2_ADCDACSEL_Pos) // select MSIK
+        | (1 << RCC_CCIPR2_ADCDACPRE_Pos); // 96MHz / 2 = 48MHz
 
     // configure instruction cache
     ICACHE->CR = ICACHE_CR_EN | ICACHE_CR_WAYSEL;
