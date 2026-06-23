@@ -8,14 +8,17 @@
 namespace coco {
 namespace debug {
 
+// LEDs
 constexpr auto greenPin = gpio::PA5;
 
+// UART
 const auto txPin = gpio::PA2 | gpio::AF12;
 #define UART_INFO uart::LPUART1_INFO
 constexpr auto uartClock = LPUART1_CLOCK;
 constexpr auto uartConfig = uart::Config::ENABLE_FIFO;
 constexpr auto uartFormat = uart::Format::DEFAULT;
 constexpr auto baudRate = 115200Hz;
+
 
 void __attribute__((weak)) init() {
     // initialize debug LEDs

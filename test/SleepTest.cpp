@@ -1,4 +1,5 @@
 #include <coco/debug.hpp>
+#include <coco/platform/system.hpp>
 
 
 /*
@@ -9,7 +10,7 @@ using namespace coco;
 
 
 int main() {
-    debug::write("SleepTest\n");
+    debug::out << "SleepTest (" << system::name() << ' ' << system::version() << ")\n";
     while (true) {
         debug::set(debug::WHITE);
         debug::write("sleep 1\n");
