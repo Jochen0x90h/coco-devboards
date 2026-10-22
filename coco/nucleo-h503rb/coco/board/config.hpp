@@ -1,6 +1,7 @@
 #pragma once
 
 #include <coco/Frequency.hpp>
+#include <coco/platform/platform.hpp>
 
 
 using namespace coco::literals;
@@ -41,5 +42,5 @@ constexpr auto FDCAN_CLOCK = PLL1Q_CLOCK;
 
 
 // flash start address and size
-constexpr int FLASH_ADDRESS = 0x8000000;
+constexpr int FLASH_ADDRESS = FLASH_BASE; // 0x8000000
 constexpr int FLASH_SIZE = 0x20000; // 128k

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <coco/Frequency.hpp>
+#include <coco/platform/platform.hpp>
 
 
 using namespace coco::literals;
@@ -22,5 +23,5 @@ constexpr auto USART3_CLOCK = APB1_CLOCK;
 
 
 // flash start address and size
-constexpr int FLASH_ADDRESS = 0x8000000;
+constexpr int FLASH_ADDRESS = FLASH_BASE; // 0x8000000
 constexpr int FLASH_SIZE = 0x10000; // 64k
